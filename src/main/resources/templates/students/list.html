@@ -2,44 +2,67 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <title>Students</title>
-    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
-    <style>table { width:100%; }</style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student List - Student Management System</title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-<header>
-    <h1>Students</h1>
-    <a href="/students/new">Add Student</a>
-    <a href="/h2-console" style="margin-left:1rem">H2 Console</a>
-</header>
-<main>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>First</th>
-                <th>Last</th>
-                <th>Email</th>
-                <th>Enrolled</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        <tr th:each="s : ${students}">
-            <td th:text="${s.id}"></td>
-            <td th:text="${s.firstName}"></td>
-            <td th:text="${s.lastName}"></td>
-            <td th:text="${s.email}"></td>
-            <td th:text="${s.enrollmentDate}"></td>
-            <td>
-                <a th:href="@{/students/edit/{id}(id=${s.id})}">Edit</a>
-                <form th:action="@{/students/delete/{id}(id=${s.id})}" method="post" style="display:inline">
-                    <button type="submit">Delete</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</main>
+    <header>
+        <h1>👥 Student Directory</h1>
+        <nav>
+            <a href="/">← Back to Dashboard</a>
+            <a href="/students/new">+ Add New Student</a>
+            <a href="/h2-console">Database Console</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Quick Stats -->
+        <div class="dashboard" style="margin-bottom: 2rem;">
+            <div class="card success">
+                <h3>Total Students</h3>
+                <div class="card-value" th:text="${students.size()}"></div>
+                <p>Registered in the system</p>
+            </div>
+        </div>
+
+        <!-- Student List Table -->
+        <table th:if="${students.size() > 0}">
+            <thead>
+                <tr>
+                    <th style="width: 10%;">ID</th>
+                    <th style="width: 20%;">First Name</th>
+                    <th style="width: 20%;">Last Name</th>
+                    <th style="width: 25%;">Email</th>
+                    <th style="width: 15%;">Enrollment Date</th>
+                    <th style="width: 10%;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="s : ${students}">
+                    <td><strong th:text="${s.id}"></strong></td>
+                    <td th:text="${s.firstName}"></td>
+                    <td th:text="${s.lastName}"></td>
+                    <td th:text="${s.email}"></td>
+                    <td th:text="${s.enrollmentDate}"></td>
+                    <td>
+                        <div class="actions">
+                            <a th:href="@{/students/edit/{id}(id=${s.id})}" class="btn btn-primary">Edit</a>
+                            <form th:action="@{/students/delete/{id}(id=${s.id})}" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?');">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Empty State -->
+        <div class="card primary" th:if="${students.size() == 0}" style="text-align: center; margin-top: 2rem;">
+            <h3>📭 No Students Yet</h3>
+            <p>You haven't added any students yet. Get started by creating your first student record.</p>
+            <a href="/students/new" class="btn btn-success" style="margin-top: 1rem;">Create First Student</a>
+        </div>
+    </main>
 </body>
 </html>
