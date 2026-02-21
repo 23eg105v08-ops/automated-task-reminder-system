@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Student Form</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+</head>
+<body>
+<header>
+    <h1 th:text="${student.id} != null ? 'Edit Student' : 'New Student'"></h1>
+    <a href="/students">Back to list</a>
+</header>
+<main>
+    <form th:action="@{/students/save}" th:object="${student}" method="post">
+        <input type="hidden" th:field="*{id}" />
+        <label>First name<input type="text" th:field="*{firstName}"/></label>
+        <label>Last name<input type="text" th:field="*{lastName}"/></label>
+        <label>Email<input type="email" th:field="*{email}"/></label>
+        <label>Enrollment Date<input type="date" name="enrollmentDateStr"/></label>
+        <button type="submit">Save</button>
+    </form>
+</main>
+</body>
+</html>

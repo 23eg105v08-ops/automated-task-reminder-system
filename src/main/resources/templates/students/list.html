@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Students</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <style>table { width:100%; }</style>
+</head>
+<body>
+<header>
+    <h1>Students</h1>
+    <a href="/students/new">Add Student</a>
+    <a href="/h2-console" style="margin-left:1rem">H2 Console</a>
+</header>
+<main>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First</th>
+                <th>Last</th>
+                <th>Email</th>
+                <th>Enrolled</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr th:each="s : ${students}">
+            <td th:text="${s.id}"></td>
+            <td th:text="${s.firstName}"></td>
+            <td th:text="${s.lastName}"></td>
+            <td th:text="${s.email}"></td>
+            <td th:text="${s.enrollmentDate}"></td>
+            <td>
+                <a th:href="@{/students/edit/{id}(id=${s.id})}">Edit</a>
+                <form th:action="@{/students/delete/{id}(id=${s.id})}" method="post" style="display:inline">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>
