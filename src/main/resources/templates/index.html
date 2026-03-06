@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Student Management System - Dashboard</title>
+    <title>Automated Task Reminder System - Dashboard</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
     <header>
-        <h1>📚 Student Management System</h1>
+        <h1>⏰ Automated Task Reminder System</h1>
         <nav>
-            <a href="/students">View All Students</a>
-            <a href="/students/new">Add New Student</a>
+            <a href="/tasks">View All Tasks</a>
+            <a href="/tasks/new">+ Create New Task</a>
         </nav>
     </header>
 
@@ -19,45 +19,54 @@
         <!-- Dashboard Cards -->
         <div class="dashboard">
             <div class="card primary">
-                <h3>👥 Total Students</h3>
-                <div class="card-value" th:text="${totalStudents ?: 0}"></div>
-                <p>Active students in the system</p>
-                <a href="/students" class="btn btn-primary">View Students</a>
+                <h3>📋 Total Tasks</h3>
+                <div class="card-value" th:text="${totalTasks ?: 0}"></div>
+                <p>All tasks in the system</p>
+                <a href="/tasks" class="btn btn-primary">View Tasks</a>
             </div>
 
             <div class="card success">
-                <h3>✅ New Enrollments</h3>
-                <div class="card-value" th:text="${recentEnrollments ?: 0}"></div>
-                <p>Students enrolled this month</p>
-                <a href="/students/new" class="btn btn-success">Enroll Student</a>
+                <h3>✅ Completed Tasks</h3>
+                <div class="card-value" th:text="${completedTasks ?: 0}"></div>
+                <p>Tasks marked as completed</p>
+                <a href="/tasks/filter/status/COMPLETED" class="btn btn-success">View Completed</a>
             </div>
 
             <div class="card warning">
-                <h3>📊 System Status</h3>
-                <div class="card-value">Active</div>
-                <p>All systems operational</p>
-                <a href="/h2-console" class="btn btn-warning">Database Console</a>
+                <h3>⏳ Pending Tasks</h3>
+                <div class="card-value" th:text="${pendingTasks ?: 0}"></div>
+                <p>Tasks awaiting attention</p>
+                <a href="/tasks/filter/status/PENDING" class="btn btn-warning">View Pending</a>
+            </div>
+
+            <div class="card danger">
+                <h3>⚠️ Overdue Tasks</h3>
+                <div class="card-value" th:text="${overdueTasks ?: 0}"></div>
+                <p>Tasks past their due date</p>
+                <a href="/tasks/filter/status/OVERDUE" class="btn btn-danger">View Overdue</a>
             </div>
         </div>
 
         <!-- Welcome Section -->
         <div class="card primary" style="margin-top: 2rem;">
-            <h3>Welcome to Student Management System</h3>
+            <h3>Welcome to Automated Task Reminder System</h3>
             <p style="font-size: 1.1rem; line-height: 1.8;">
-                This is a modern student management application built with Spring Boot and Thymeleaf. 
-                You can easily manage student records, including creating, reading, updating, and deleting student information.
+                This is a modern task management application built with Spring Boot and Thymeleaf. 
+                You can easily manage your tasks with automated reminders, priority levels, and due date tracking.
             </p>
             <h4 style="margin-top: 1.5rem; color: #667eea;">Features:</h4>
             <ul style="margin-left: 2rem; margin-top: 1rem; line-height: 2;">
-                <li>✨ Create and manage student records</li>
-                <li>🔍 Search and filter students</li>
-                <li>📝 Update student information</li>
-                <li>🗑️ Delete outdated records</li>
+                <li>✨ Create and manage tasks with detailed descriptions</li>
+                <li>⏰ Set reminder times for automated notifications</li>
+                <li>🎯 Assign priority levels (LOW, MEDIUM, HIGH)</li>
+                <li>📅 Track due dates and identify overdue tasks</li>
+                <li>✅ Mark tasks as completed to track progress</li>
+                <li>🔍 Filter tasks by status and priority</li>
                 <li>💾 Persistent data storage with H2 Database</li>
                 <li>🎨 Modern and responsive UI design</li>
             </ul>
             <div style="margin-top: 2rem;">
-                <a href="/students" class="btn btn-primary">Get Started</a>
+                <a href="/tasks" class="btn btn-primary">Get Started</a>
             </div>
         </div>
     </main>

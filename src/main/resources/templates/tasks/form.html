@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Form - Automated Task Reminder System</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 th:text="${task.id != null} ? '✏️ Edit Task' : '➕ Create New Task'"></h1>
+        <nav>
+            <a href="/">← Back to Dashboard</a>
+            <a href="/tasks">View All Tasks</a>
+        </nav>
+    </header>
+
+    <main style="max-width: 700px; margin: 0 auto;">
+        <form th:action="@{/tasks/save}" th:object="${task}" method="post">
+            <input type="hidden" th:field="*{id}" />
+
+            <!-- Title Field -->
+            <div class="form-group">
+                <label>
+                    <strong>Task Title</strong>
+                    <input type="text" th:field="*{title}" placeholder="Enter task title" required />
+                </label>
+            </div>
+
+            <!-- Description Field -->
+            <div class="form-group">
+                <label>
+                    <strong>Task Description</strong>
+                    <textarea th:field="*{description}" placeholder="Enter detailed task description" rows="4" style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+                </label>
+            </div>
+
+            <!-- Priority and Status in Row -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label>
+                        <strong>Priority Level</strong>
+                        <select th:field="*{priority}" required>
+                            <option value="">-- Select Priority --</option>
+                            <option value="LOW">Low</option>
+                            <option value="MEDIUM">Medium</option>
+                            <option value="HIGH">High</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <strong>Task Status</strong>
+                        <select th:field="*{status}">
+                            <option value="PENDING">Pending</option>
+                            <option value="COMPLETED">Completed</option>
+                            <option value="OVERDUE">Overdue</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Due Date and Reminder Time in Row -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label>
+                        <strong>Due Date & Time</strong>
+                        <input type="datetime-local" name="dueDateStr" 
+                               th:value="${task.dueDate} ? ${#temporals.format(task.dueDate, 'yyyy-MM-dd\'T\'HH:mm')} : ''" />
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <strong>Reminder Time</strong>
+                        <input type="datetime-local" name="reminderTimeStr" 
+                               th:value="${task.reminderTime} ? ${#temporals.format(task.reminderTime, 'yyyy-MM-dd\'T\'HH:mm')} : ''" />
+                    </label>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <button type="submit" class="btn btn-primary" style="flex: 1;">
+                    <span th:if="${task.id == null}">Create Task</span>
+                    <span th:if="${task.id != null}">Update Task</span>
+                </button>
+                <a href="/tasks" class="btn btn-secondary" style="flex: 1; text-align: center;">Cancel</a>
+            </div>
+        </form>
+
+        <!-- Info Section -->
+        <div class="card primary" style="margin-top: 3rem;">
+            <h4>📋 Task Management Tips</h4>
+            <ul style="margin-left: 2rem; margin-top: 1rem; line-height: 1.8;">
+                <li><strong>Priority:</strong> Set priority level to help organize your workload</li>
+                <li><strong>Due Date:</strong> Define when the task must be completed</li>
+                <li><strong>Reminder:</strong> Get notified before the due date</li>
+                <li><strong>Status:</strong> Track task progress through different stages</li>
+                <li><strong>Description:</strong> Add detailed notes to keep context</li>
+            </ul>
+        </div>
+    </main>
+</body>
+</html>

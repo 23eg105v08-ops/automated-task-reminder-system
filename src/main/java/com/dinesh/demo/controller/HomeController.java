@@ -1,6 +1,6 @@
 package com.dinesh.demo.controller;
 
-import com.dinesh.demo.service.StudentService;
+import com.dinesh.demo.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,19 +10,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class HomeController {
 
-    private final StudentService studentService;
+    private final TaskService taskService;
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("totalStudents", studentService.findAll().size());
-        model.addAttribute("recentEnrollments", 0); // You can add logic to count recent enrollments
+        model.addAttribute("totalTasks", taskService.getTotalTasksCount());
+        model.addAttribute("pendingTasks", taskService.getPendingTasksCount());
+        model.addAttribute("completedTasks", taskService.getCompletedTasksCount());
+        model.addAttribute("overdueTasks", taskService.getOverdueTasksCount());
         return "index";
     }
 
     @GetMapping("/home")
     public String home(Model model) {
-        model.addAttribute("totalStudents", studentService.findAll().size());
-        model.addAttribute("recentEnrollments", 0);
+        model.addAttribute("totalTasks", taskService.getTotalTasksCount());
+        model.addAttribute("pendingTasks", taskService.getPendingTasksCount());
+        model.addAttribute("completedTasks", taskService.getCompletedTasksCount());
+        model.addAttribute("overdueTasks", taskService.getOverdueTasksCount());
         return "index";
     }
 }

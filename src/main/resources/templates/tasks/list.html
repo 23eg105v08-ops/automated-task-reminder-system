@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task List - Automated Task Reminder System</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .status-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin: 0.25rem;
+        }
+        .status-pending {
+            background-color: #ffc107;
+            color: #000;
+        }
+        .status-completed {
+            background-color: #28a745;
+            color: #fff;
+        }
+        .status-overdue {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        .priority-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin: 0.25rem;
+        }
+        .priority-low {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .priority-medium {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .priority-high {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        table td {
+            vertical-align: middle;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .action-buttons form {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>⏰ Task List</h1>
+        <nav>
+            <a href="/">← Back to Dashboard</a>
+            <a href="/tasks/new">+ Create New Task</a>
+            <a href="/h2-console">Database Console</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Quick Stats -->
+        <div class="dashboard" style="margin-bottom: 2rem;">
+            <div class="card success">
+                <h3>Total Tasks</h3>
+                <div class="card-value" th:text="${tasks.size()}"></div>
+                <p>All tasks in system</p>
+            </div>
+            <div class="card primary">
+                <h3>Pending</h3>
+                <div class="card-value" th:text="${pendingCount}"></div>
+                <p>Awaiting attention</p>
+            </div>
+            <div class="card warning">
+                <h3>Completed</h3>
+                <div class="card-value" th:text="${completedCount}"></div>
+                <p>Successfully finished</p>
+            </div>
+            <div class="card danger">
+                <h3>Overdue</h3>
+                <div class="card-value" th:text="${overdueCount}"></div>
+                <p>Past due date</p>
+            </div>
+        </div>
+
+        <!-- Filter Options -->
+        <div class="card primary" style="margin-bottom: 2rem;">
+            <h3>Filter Tasks</h3>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <a href="/tasks" class="btn btn-secondary">All Tasks</a>
+                <a href="/tasks/filter/status/PENDING" class="btn btn-warning">Pending</a>
+                <a href="/tasks/filter/status/COMPLETED" class="btn btn-success">Completed</a>
+                <a href="/tasks/filter/status/OVERDUE" class="btn btn-danger">Overdue</a>
+                <a href="/tasks/filter/priority/HIGH" class="btn btn-danger">High Priority</a>
+                <a href="/tasks/filter/priority/MEDIUM" class="btn btn-warning">Medium Priority</a>
+                <a href="/tasks/filter/priority/LOW" class="btn btn-success">Low Priority</a>
+            </div>
+        </div>
+
+        <!-- Task List Table -->
+        <table th:if="${tasks.size() > 0}">
+            <thead>
+                <tr>
+                    <th style="width: 5%;">ID</th>
+                    <th style="width: 20%;">Title</th>
+                    <th style="width: 25%;">Description</th>
+                    <th style="width: 12%;">Priority</th>
+                    <th style="width: 12%;">Status</th>
+                    <th style="width: 15%;">Due Date</th>
+                    <th style="width: 15%;">Reminder</th>
+                    <th style="width: 20%;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="t : ${tasks}">
+                    <td><strong th:text="${t.id}"></strong></td>
+                    <td th:text="${t.title}"></td>
+                    <td th:text="${t.description}"></td>
+                    <td>
+                        <span th:classappend="${'priority-' + t.priority?.toLowerCase()}"
+                              class="priority-badge" 
+                              th:text="${t.priority ?: 'N/A'}"></span>
+                    </td>
+                    <td>
+                        <span th:classappend="${'status-' + t.status?.toLowerCase()}"
+                              class="status-badge" 
+                              th:text="${t.status ?: 'N/A'}"></span>
+                    </td>
+                    <td th:text="${t.dueDate} ? ${#temporals.format(t.dueDate, 'yyyy-MM-dd HH:mm')} : 'Not Set'"></td>
+                    <td th:text="${t.reminderTime} ? ${#temporals.format(t.reminderTime, 'yyyy-MM-dd HH:mm')} : 'Not Set'"></td>
+                    <td>
+                        <div class="action-buttons">
+                            <a th:href="@{/tasks/edit/{id}(id=${t.id})}" class="btn btn-primary">Edit</a>
+                            <form th:action="@{/tasks/complete/{id}(id=${t.id})}" method="post" style="display: inline;">
+                                <button type="submit" class="btn btn-success" th:disabled="${t.status == 'COMPLETED'}">Complete</button>
+                            </form>
+                            <form th:action="@{/tasks/delete/{id}(id=${t.id})}" method="post" style="display: inline;" onsubmit="return confirm('Are you sure?');">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Empty State -->
+        <div class="card primary" th:if="${tasks.size() == 0}" style="text-align: center; padding: 3rem;">
+            <h3>📭 No Tasks Found</h3>
+            <p style="margin-top: 1rem; font-size: 1.1rem;">Start by creating your first task to get organized!</p>
+            <a href="/tasks/new" class="btn btn-primary" style="margin-top: 1rem;">Create Your First Task</a>
+        </div>
+    </main>
+</body>
+</html>
