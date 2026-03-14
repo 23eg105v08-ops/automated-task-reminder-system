@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Integrations Settings - Automated Task Reminder System</title>
+    <link rel="stylesheet" href="/css/styles.css?v=20260313">
+</head>
+<body>
+<header>
+    <h1>Integration Settings & Tests</h1>
+    <nav>
+        <a href="/">Back to Dashboard</a>
+        <a href="/tasks">View All Tasks</a>
+        <a href="/tasks/new">Create Task</a>
+    </nav>
+</header>
+
+<main>
+    <div class="card primary" style="margin-bottom: 1rem;">
+        <h3>How To Use</h3>
+        <p>Use this page to test AI, SMS, and overdue email notifications quickly. If a service is not configured, you will get an actionable error message.</p>
+    </div>
+
+    <div class="dashboard">
+        <div class="card success">
+            <h3>AI Test</h3>
+            <p>Send a test question to your AI endpoint.</p>
+            <div style="display: grid; gap: 0.75rem; margin-top: 0.8rem;">
+                <textarea id="testAiQuestion" rows="4" placeholder="Example: Plan my top 3 tasks for today">Plan my top 3 tasks for today based on urgency and impact.</textarea>
+                <button id="testAiBtn" class="btn btn-success" type="button">Test AI</button>
+                <pre id="testAiResult" class="test-result" style="display:none;"></pre>
+            </div>
+        </div>
+
+        <div class="card warning">
+            <h3>SMS Test</h3>
+            <p>Send a high-risk SMS test notification using Twilio.</p>
+            <div style="display: grid; gap: 0.75rem; margin-top: 0.8rem;">
+                <button id="testSmsBtn" class="btn btn-warning" type="button">Test SMS</button>
+                <pre id="testSmsResult" class="test-result" style="display:none;"></pre>
+            </div>
+        </div>
+
+        <div class="card danger">
+            <h3>Overdue Email Test</h3>
+            <p>Send an overdue email reminder as notification fallback.</p>
+            <div style="display: grid; gap: 0.75rem; margin-top: 0.8rem;">
+                <button id="testEmailBtn" class="btn btn-danger" type="button">Test Overdue Email</button>
+                <pre id="testEmailResult" class="test-result" style="display:none;"></pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="card primary" style="margin-top: 1rem;">
+        <h3>Quick Config Checklist</h3>
+        <ul style="margin-left: 1.25rem; line-height: 1.8;">
+            <li>AI: GEMINI_API_KEY</li>
+            <li>SMS: TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_FROM_NUMBER, NOTIFICATION_PHONE</li>
+            <li>Email: MAIL_HOST, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, NOTIFICATION_EMAIL</li>
+        </ul>
+    </div>
+</main>
+
+<script src="/js/integration-tests.js"></script>
+</body>
+</html>

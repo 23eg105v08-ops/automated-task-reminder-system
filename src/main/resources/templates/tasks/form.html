@@ -4,22 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Task Form - Automated Task Reminder System</title>
-    <link rel="stylesheet" href="/css/styles.css">
-    <style>
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-        @media (max-width: 768px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/css/styles.css?v=20260313">
 </head>
 <body>
     <header>
@@ -27,6 +12,7 @@
         <nav>
             <a href="/">← Back to Dashboard</a>
             <a href="/tasks">View All Tasks</a>
+            <a href="/settings">Integrations</a>
         </nav>
     </header>
 
@@ -46,7 +32,7 @@
             <div class="form-group">
                 <label>
                     <strong>Task Description</strong>
-                    <textarea th:field="*{description}" placeholder="Enter detailed task description" rows="4" style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+                    <textarea th:field="*{description}" placeholder="Enter detailed task description" rows="4"></textarea>
                 </label>
             </div>
 
@@ -57,7 +43,7 @@
                         <strong>Priority Level</strong>
                         <select th:field="*{priority}" required>
                             <option value="">-- Select Priority --</option>
-                            <option value="LOW">Low</option>
+                            <option value="LOW">Easy (Low)</option>
                             <option value="MEDIUM">Medium</option>
                             <option value="HIGH">High</option>
                         </select>
@@ -109,10 +95,10 @@
         <div class="card primary" style="margin-top: 3rem;">
             <h4>📋 Task Management Tips</h4>
             <ul style="margin-left: 2rem; margin-top: 1rem; line-height: 1.8;">
-                <li><strong>Priority:</strong> Set priority level to help organize your workload</li>
+                <li><strong>Priority:</strong> Start with LOW for easier tasks, then the system auto-escalates to MEDIUM and HIGH as due time gets closer</li>
                 <li><strong>Due Date:</strong> Define when the task must be completed</li>
                 <li><strong>Reminder:</strong> Get notified before the due date</li>
-                <li><strong>Status:</strong> Track task progress through different stages</li>
+                <li><strong>Status:</strong> Tasks automatically switch to OVERDUE after the due time is crossed</li>
                 <li><strong>Description:</strong> Add detailed notes to keep context</li>
             </ul>
         </div>

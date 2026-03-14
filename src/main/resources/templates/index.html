@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Automated Task Reminder System - Dashboard</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css?v=20260313">
 </head>
 <body>
     <header>
@@ -12,6 +12,7 @@
         <nav>
             <a href="/tasks">View All Tasks</a>
             <a href="/tasks/new">+ Create New Task</a>
+            <a href="/settings">Integrations</a>
         </nav>
     </header>
 
@@ -54,7 +55,7 @@
                 This is a modern task management application built with Spring Boot and Thymeleaf. 
                 You can easily manage your tasks with automated reminders, priority levels, and due date tracking.
             </p>
-            <h4 style="margin-top: 1.5rem; color: #667eea;">Features:</h4>
+            <h4 style="margin-top: 1.5rem; color: #1ed760;">Features:</h4>
             <ul style="margin-left: 2rem; margin-top: 1rem; line-height: 2;">
                 <li>✨ Create and manage tasks with detailed descriptions</li>
                 <li>⏰ Set reminder times for automated notifications</li>
@@ -62,13 +63,24 @@
                 <li>📅 Track due dates and identify overdue tasks</li>
                 <li>✅ Mark tasks as completed to track progress</li>
                 <li>🔍 Filter tasks by status and priority</li>
-                <li>💾 Persistent data storage with H2 Database</li>
+                <li>💾 Persistent data storage with MySQL Database</li>
                 <li>🎨 Modern and responsive UI design</li>
             </ul>
             <div style="margin-top: 2rem;">
                 <a href="/tasks" class="btn btn-primary">Get Started</a>
             </div>
         </div>
+
+        <div class="card success" style="margin-top: 2rem;">
+            <h3>AI Task Assistant</h3>
+            <p style="margin-bottom: 1rem;">Ask for help with planning, reminders, or prioritizing your tasks.</p>
+            <div style="display: grid; gap: 0.75rem;">
+                <textarea id="aiQuestion" rows="4" placeholder="Example: Plan my top 3 priorities for today"></textarea>
+                <button id="askAiBtn" class="btn btn-success" type="button">Ask AI</button>
+                <pre id="aiAnswer" style="display: none; white-space: pre-wrap; padding: 1rem; border-radius: 12px;"></pre>
+            </div>
+        </div>
     </main>
+    <script src="/js/ai-assistant.js"></script>
 </body>
 </html>

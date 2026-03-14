@@ -4,60 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Task List - Automated Task Reminder System</title>
-    <link rel="stylesheet" href="/css/styles.css">
-    <style>
-        .status-badge {
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            margin: 0.25rem;
-        }
-        .status-pending {
-            background-color: #ffc107;
-            color: #000;
-        }
-        .status-completed {
-            background-color: #28a745;
-            color: #fff;
-        }
-        .status-overdue {
-            background-color: #dc3545;
-            color: #fff;
-        }
-        .priority-badge {
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            margin: 0.25rem;
-        }
-        .priority-low {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .priority-medium {
-            background-color: #fff3cd;
-            color: #856404;
-        }
-        .priority-high {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        table td {
-            vertical-align: middle;
-        }
-        .action-buttons {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-        .action-buttons form {
-            display: inline;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/styles.css?v=20260313">
 </head>
 <body>
     <header>
@@ -65,7 +12,7 @@
         <nav>
             <a href="/">← Back to Dashboard</a>
             <a href="/tasks/new">+ Create New Task</a>
-            <a href="/h2-console">Database Console</a>
+            <a href="/settings">Integrations</a>
         </nav>
     </header>
 
@@ -142,10 +89,10 @@
                     <td>
                         <div class="action-buttons">
                             <a th:href="@{/tasks/edit/{id}(id=${t.id})}" class="btn btn-primary">Edit</a>
-                            <form th:action="@{/tasks/complete/{id}(id=${t.id})}" method="post" style="display: inline;">
+                            <form th:action="@{/tasks/complete/{id}(id=${t.id})}" method="post">
                                 <button type="submit" class="btn btn-success" th:disabled="${t.status == 'COMPLETED'}">Complete</button>
                             </form>
-                            <form th:action="@{/tasks/delete/{id}(id=${t.id})}" method="post" style="display: inline;" onsubmit="return confirm('Are you sure?');">
+                            <form th:action="@{/tasks/delete/{id}(id=${t.id})}" method="post" onsubmit="return confirm('Are you sure?');">
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
                         </div>
