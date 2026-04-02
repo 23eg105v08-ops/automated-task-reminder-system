@@ -21,6 +21,7 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final SmsNotificationService smsNotificationService;
     private final EmailNotificationService emailNotificationService;
+    private final WebNotificationService webNotificationService;
 
     public List<Task> findAll() {
         refreshTimeBasedTaskState();
@@ -140,6 +141,11 @@ public class TaskService {
                         event.becameOverdue()
                     );
                     emailNotificationService.sendEscalationAlert(
+                        event.taskTitle(),
+                        level,
+                        event.becameOverdue()
+                    );
+                    webNotificationService.publishEscalation(
                         event.taskTitle(),
                         level,
                         event.becameOverdue()

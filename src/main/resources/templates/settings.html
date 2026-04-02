@@ -13,6 +13,9 @@
         <a href="/">Back to Dashboard</a>
         <a href="/tasks">View All Tasks</a>
         <a href="/tasks/new">Create Task</a>
+        <form action="/logout" method="post" class="inline-logout">
+            <button type="submit" class="btn btn-secondary">Logout</button>
+        </form>
     </nav>
 </header>
 
@@ -62,6 +65,7 @@
     </div>
 </main>
 
+<script src="/js/notifications.js"></script>
 <script src="/js/integration-tests.js"></script>
 </body>
 </html>
